@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="RaagaTales — Personalised songs and illustrated story narrations for life's most precious celebrations.">
+<meta property="og:title" content="RaagaTales | Where Music Meets Memory">
+<meta property="og:description" content="Personalised songs and illustrated story narrations for birthdays, anniversaries, weddings and every celebration worth remembering.">
+<meta property="og:url" content="https://raagaatales.com">
+<meta name="theme-color" content="#1A0E05">
+<title>RaagaTales | Where Music Meets Memory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+
+:root{
+  --ink:#1A0E05;
+  --ink2:#3B2410;
+  --gold:#B07D2A;
+  --gold2:#D4A043;
+  --gold3:#F0C878;
+  --saffron:#C8521A;
+  --cream:#FAF6EF;
+  --cream2:#F3EBD8;
+  --cream3:#E8DCCA;
+  --white:#FFFFFF;
+  --muted:#7A6248;
+  --border:rgba(176,125,42,0.18);
+  --border2:rgba(176,125,42,0.32);
+}
+
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  overflow-x:hidden;
+  line-height:1.6;
+}
+
+/* ── MUSIC TOGGLE ── */
+#music-btn{
+  position:fixed;bottom:28px;right:28px;z-index:999;
+  width:54px;height:54px;border-radius:50%;
+  background:var(--ink);border:1px solid var(--gold);
+  color:var(--gold2);font-size:20px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 24px rgba(26,14,5,0.4);
+  transition:transform 0.2s,background 0.2s;
+  -webkit-tap-highlight-color:transparent;
+}
+#music-btn:hover{transform:scale(1.1);background:#2A1508}
+.ripple{
+  position:fixed;bottom:28px;right:28px;z-index:998;
+  width:54px;height:54px;border-radius:50%;
+  border:1.5px solid rgba(176,125,42,0.4);
+  pointer-events:none;
+}
+.ripple.on{animation:rpl 2s ease-out infinite}
+@keyframes rpl{0%{transform:scale(1);opacity:.7}100%{transform:scale(2.4);opacity:0}}
+
+/* ── CREAM NAV (fixed, always on top, hidden behind hero) ── */
+#nav-cream{
+  position:fixed;top:0;left:0;right:0;z-index:10;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 60px;
+  background:rgba(250,246,239,0.97);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  box-shadow:0 2px 24px rgba(26,14,5,0.07);
+}
+/* ── DARK NAV (inside hero, scrolls with page, sits above cream nav) ── */
+.hero-nav{
+  position:absolute;top:0;left:0;right:0;z-index:20;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 60px;
+}
+.logo-light{
+  font-family:'Cormorant Garamond',serif;
+  font-size:30px;font-weight:600;letter-spacing:0.03em;
+  text-decoration:none;display:flex;align-items:baseline;gap:1px;
+}
+.logo-light b{font-weight:600;color:#FFFFFF}
+.logo-light i{font-style:italic;color:var(--gold3);font-weight:400}
+.logo-dark{
+  font-family:'Cormorant Garamond',serif;
+  font-size:30px;font-weight:600;letter-spacing:0.03em;
+  text-decoration:none;display:flex;align-items:baseline;gap:1px;
+}
+.logo-dark b{font-weight:600;color:var(--ink)}
+.logo-dark i{font-style:italic;color:var(--gold);font-weight:400}
+.nav-links-light{display:flex;gap:36px;list-style:none}
+.nav-links-light a{
+  font-size:12px;font-weight:500;letter-spacing:0.18em;
+  text-transform:uppercase;color:rgba(255,255,255,0.92);text-decoration:none;
+  transition:color 0.2s;
+}
+.nav-links-light a:hover{color:var(--gold3)}
+.nav-links-dark{display:flex;gap:36px;list-style:none}
+.nav-links-dark a{
+  font-size:12px;font-weight:500;letter-spacing:0.18em;
+  text-transform:uppercase;color:var(--ink);text-decoration:none;
+  transition:color 0.2s;
+}
+.nav-links-dark a:hover{color:var(--gold)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none;-webkit-tap-highlight-color:transparent}
+.hamburger span{display:block;width:24px;height:1.5px;background:var(--ink);transition:all 0.3s}
+.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.mobile-menu{
+  display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:99;
+  background:rgba(250,246,239,0.98);backdrop-filter:blur(20px);
+  flex-direction:column;align-items:center;justify-content:center;gap:40px;
+}
+.mobile-menu.open{display:flex}
+.mobile-menu a{
+  font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;
+  font-style:italic;color:var(--ink);text-decoration:none;
+  letter-spacing:0.04em;transition:color 0.2s;
+}
+.mobile-menu a:hover{color:var(--gold)}
+
+/* ── HERO ── */
+#home{
+  min-height:100vh;
+  background:linear-gradient(160deg,#1A0E05 0%,#2E1508 40%,#1A0E05 100%);
+  display:flex;align-items:center;
+  padding:120px 60px 80px;
+  position:relative;
+  z-index:15;
+  overflow:hidden;
+}
+.hero-rings{
+  position:absolute;right:-5vw;top:50%;transform:translateY(-50%);
+  width:min(600px,55vw);height:min(600px,55vw);
+  pointer-events:none;
+}
+.hero-rings circle{fill:none}
+.hero-content{position:relative;z-index:2;max-width:600px}
+.eyebrow-pill{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:11px;font-weight:300;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--gold3);margin-bottom:32px;
+}
+.eyebrow-pill::before{content:'';width:28px;height:1px;background:var(--gold)}
+h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(52px,6.5vw,88px);
+  font-weight:300;line-height:1.02;
+  color:#FAF6EF;margin-bottom:28px;letter-spacing:-0.01em;
+}
+h1 em{font-style:italic;color:var(--gold2)}
+.hero-lead{
+  font-size:clamp(17px,1.8vw,20px);font-weight:300;line-height:1.85;
+  color:rgba(250,246,239,0.55);margin-bottom:52px;max-width:480px;
+}
+.hero-link{
+  display:inline-flex;align-items:center;gap:12px;
+  font-size:12px;font-weight:400;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--gold3);text-decoration:none;
+  border-bottom:1px solid rgba(240,200,120,0.35);padding-bottom:6px;
+  transition:gap 0.3s,color 0.2s,border-color 0.2s;
+}
+.hero-link:hover{gap:20px;color:var(--gold2);border-color:var(--gold2)}
+.hero-link svg{width:16px;height:16px;flex-shrink:0}
+.langs{
+  position:absolute;bottom:48px;left:60px;
+  display:flex;gap:20px;flex-wrap:wrap;
+}
+.lang{
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px;font-style:italic;
+  color:rgba(250,246,239,0.45);letter-spacing:0.04em;
+  transition:color 0.3s;cursor:default;
+}
+.lang:hover{color:rgba(240,200,120,0.6)}
+
+/* ── DIVIDER ── */
+.divider{
+  display:flex;align-items:center;justify-content:center;gap:20px;
+  padding:0 60px;
+}
+.divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border))}
+.divider-line.r{background:linear-gradient(90deg,var(--border),transparent)}
+.divider-gem{
+  font-family:'Cormorant Garamond',serif;font-size:20px;
+  color:var(--gold);opacity:0.45;
+}
+
+/* ── SECTIONS ── */
+section{padding:100px 60px;position:relative;z-index:1}
+.inner{max-width:1160px;margin:0 auto}
+
+.s-eyebrow{
+  font-size:10px;font-weight:400;letter-spacing:0.26em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:18px;
+  display:flex;align-items:center;gap:12px;
+}
+.s-eyebrow::before{content:'';width:20px;height:1px;background:var(--gold);opacity:0.6}
+
+h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(36px,4.5vw,58px);
+  font-weight:300;line-height:1.08;
+  color:var(--ink);letter-spacing:-0.01em;margin-bottom:20px;
+}
+h2 em{font-style:italic;color:var(--saffron)}
+
+.s-body{
+  font-size:clamp(15px,1.5vw,17px);font-weight:300;
+  line-height:1.9;color:var(--muted);
+}
+
+/* ── ABOUT ── */
+#about{background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.about-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:88px;align-items:center}
+.about-quote{
+  font-family:'Cormorant Garamond',serif;font-size:clamp(18px,2vw,23px);
+  font-style:italic;font-weight:300;color:var(--ink2);line-height:1.65;
+  border-left:2px solid var(--gold2);padding-left:24px;
+  margin:32px 0;
+}
+.about-ps{margin-top:16px}
+.about-ps p+p{margin-top:16px}
+.founder-strip{
+  display:flex;align-items:center;gap:16px;
+  margin-top:40px;padding-top:32px;
+  border-top:1px solid var(--border);
+}
+.founder-dot{
+  width:46px;height:46px;border-radius:50%;
+  background:linear-gradient(135deg,var(--cream2),var(--cream3));
+  border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;flex-shrink:0;
+}
+.founder-name{font-size:14px;font-weight:500;color:var(--ink);letter-spacing:0.02em}
+.founder-role{font-size:12px;font-weight:300;color:var(--muted);margin-top:2px;letter-spacing:0.04em}
+
+/* emblem */
+.emblem-wrap{display:flex;justify-content:center;align-items:center}
+.emblem{
+  width:min(320px,80vw);height:min(320px,80vw);border-radius:50%;
+  background:radial-gradient(circle at 40% 35%,var(--cream2),var(--cream3));
+  border:1px solid var(--border2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:4px;position:relative;
+}
+.emblem::before{
+  content:'';position:absolute;inset:18px;border-radius:50%;
+  border:1px dashed rgba(176,125,42,0.2);
+}
+.emblem-r{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:600;color:var(--ink);letter-spacing:0.06em}
+.emblem-t{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;font-style:italic;color:var(--gold);letter-spacing:0.04em}
+.emblem-sub{font-size:10px;font-weight:300;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);margin-top:10px}
+
+/* ── OFFER ── */
+#offer{background:var(--cream)}
+.offer-hd{margin-bottom:64px}
+.offer-hd h2{margin-bottom:16px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border)}
+.card{
+  background:var(--cream);padding:48px 36px;
+  transition:background 0.3s;cursor:default;
+}
+.card:hover{background:var(--white)}
+.card-num{
+  font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:300;
+  color:rgba(176,125,42,0.1);line-height:1;margin-bottom:20px;display:block;
+}
+.card-icon{
+  width:46px;height:46px;border-radius:50%;border:1px solid var(--border2);
+  background:var(--white);display:flex;align-items:center;justify-content:center;
+  font-size:20px;margin-bottom:24px;
+}
+.card-title{
+  font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;
+  color:var(--ink);margin-bottom:16px;letter-spacing:0.01em;
+}
+.card-body{font-size:15px;font-weight:300;line-height:1.85;color:var(--muted)}
+.card-del{margin-top:28px;padding-top:24px;border-top:1px solid var(--border)}
+.del-label{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);font-weight:400;margin-bottom:10px}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.tag{
+  font-size:11px;font-weight:300;letter-spacing:0.06em;
+  color:var(--ink2);background:rgba(176,125,42,0.09);
+  border:1px solid rgba(176,125,42,0.18);
+  padding:4px 13px;border-radius:100px;
+}
+
+/* occasions strip */
+.strip{
+  background:var(--ink);padding:36px 60px;
+  display:flex;align-items:center;justify-content:center;
+  flex-wrap:wrap;gap:0;overflow:hidden;
+}
+.occ{
+  font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;
+  font-weight:300;color:rgba(250,246,239,0.55);
+  padding:10px 32px;border-right:1px solid rgba(250,246,239,0.1);
+  white-space:nowrap;transition:color 0.3s;cursor:default;
+}
+.occ:last-child{border-right:none}
+.occ:hover{color:var(--gold3)}
+
+/* ── CONTACT ── */
+#contact{background:var(--cream2);border-top:1px solid var(--border)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.contact-text h2{margin-bottom:24px}
+.contact-body{font-size:16px;font-weight:300;line-height:1.9;color:var(--muted);margin-bottom:44px}
+.email-block{display:flex;flex-direction:column;gap:8px}
+.email-lbl{font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);font-weight:400}
+.email-link{
+  font-family:'Cormorant Garamond',serif;font-size:clamp(22px,2.5vw,30px);
+  font-weight:400;color:var(--ink);text-decoration:none;letter-spacing:0.01em;
+  border-bottom:1px solid var(--gold2);padding-bottom:4px;
+  display:inline-block;transition:color 0.2s;
+}
+.email-link:hover{color:var(--gold)}
+.contact-note{
+  margin-top:28px;font-family:'Cormorant Garamond',serif;
+  font-size:17px;font-style:italic;font-weight:300;
+  color:var(--muted);line-height:1.75;
+}
+.aside-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:2px;padding:36px;margin-bottom:16px;
+}
+.aside-ey{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);font-weight:400;margin-bottom:14px}
+.aside-body{font-size:15px;font-weight:300;line-height:1.85;color:var(--muted)}
+.aside-body strong{font-weight:500;color:var(--ink2)}
+.privacy-bar{
+  background:var(--ink);padding:24px 28px;
+  display:flex;align-items:flex-start;gap:14px;
+}
+.privacy-bar p{font-size:14px;font-weight:300;color:rgba(250,246,239,0.55);line-height:1.75}
+.privacy-bar strong{font-weight:400;color:var(--gold3)}
+.lock{font-size:18px;flex-shrink:0;margin-top:1px}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--ink);padding:44px 60px;
+  border-top:1px solid rgba(176,125,42,0.12);
+}
+.foot-inner{
+  max-width:1160px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;
+}
+.foot-logo{
+  font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;
+  color:rgba(250,246,239,0.5);text-decoration:none;letter-spacing:0.04em;
+}
+.foot-logo i{font-style:italic;color:var(--gold)}
+.foot-tag{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(250,246,239,0.18);font-weight:300}
+.foot-copy{font-size:12px;color:rgba(250,246,239,0.18);font-weight:300}
+
+/* ── REVEAL ── */
+.reveal{opacity:1;transform:none}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  #nav-cream{padding:16px 24px}
+  .hero-nav{padding:16px 24px}
+  .nav-links-light{display:none}
+  .nav-links-dark{display:none}
+  .hamburger{display:flex}
+  .logo-light{font-size:24px}
+  .logo-dark{font-size:24px}
+  section{padding:72px 24px}
+  #home{padding:100px 24px 80px}
+  .hero-rings{display:none}
+  .langs{left:24px;bottom:36px;gap:14px}
+  .lang{font-size:16px}
+  .divider{padding:0 24px}
+  .about-grid{grid-template-columns:1fr;gap:48px}
+  .emblem-wrap{display:none}
+  .cards{grid-template-columns:1fr;gap:2px}
+  .contact-grid{grid-template-columns:1fr;gap:48px}
+  .strip{padding:20px 24px;gap:4px}
+  .occ{padding:8px 18px;font-size:17px}
+  footer{padding:36px 24px}
+  .foot-inner{flex-direction:column;text-align:center;gap:12px}
+}
+@media(max-width:560px){
+  .card{padding:36px 24px}
+  .aside-card{padding:28px 20px}
+  .privacy-bar{padding:20px}
+  .langs{gap:10px}
+}
+</style>
+</head>
+<body>
+
+<audio id="bgm" loop preload="none">
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+<button id="music-btn" aria-label="Toggle music">♪</button>
+<div class="ripple" id="ripple"></div>
+
+<!-- CREAM NAV — visible on all pages except hero (fixed, always rendered) -->
+<nav id="nav-cream">
+  <a class="logo-dark" href="#home"><b>Raaga</b><i>Tales</i></a>
+  <ul class="nav-links-dark">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#offer">What We Offer</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="hamburger" id="ham" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mob">
+  <a href="#home" class="mob-link">Home</a>
+  <a href="#about" class="mob-link">About</a>
+  <a href="#offer" class="mob-link">What We Offer</a>
+  <a href="#contact" class="mob-link">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="home">
+  <!-- DARK NAV — floats over hero only, scrolls away with hero -->
+  <div class="hero-nav">
+    <a class="logo-light" href="#home"><b>Raaga</b><i>Tales</i></a>
+    <ul class="nav-links-light">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#offer">What We Offer</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+
+  <svg class="hero-rings" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="300" cy="300" r="295" stroke="rgba(176,125,42,0.12)" stroke-width="1"/>
+    <circle cx="300" cy="300" r="240" stroke="rgba(176,125,42,0.09)" stroke-width="1"/>
+    <circle cx="300" cy="300" r="185" stroke="rgba(176,125,42,0.07)" stroke-width="1"/>
+    <circle cx="300" cy="300" r="130" stroke="rgba(176,125,42,0.06)" stroke-width="1"/>
+    <circle cx="300" cy="300" r="75" stroke="rgba(176,125,42,0.06)" stroke-width="0.5"/>
+    <circle cx="300" cy="300" r="8" fill="rgba(176,125,42,0.2)"/>
+    <line x1="300" y1="5" x2="300" y2="595" stroke="rgba(176,125,42,0.06)" stroke-width="0.5"/>
+    <line x1="5" y1="300" x2="595" y2="300" stroke="rgba(176,125,42,0.06)" stroke-width="0.5"/>
+    <line x1="92" y1="92" x2="508" y2="508" stroke="rgba(176,125,42,0.05)" stroke-width="0.5"/>
+    <line x1="508" y1="92" x2="92" y2="508" stroke="rgba(176,125,42,0.05)" stroke-width="0.5"/>
+    <text x="300" y="320" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="80" fill="rgba(176,125,42,0.08)" font-style="italic">♫</text>
+  </svg>
+
+  <div class="hero-content">
+    <div class="eyebrow-pill">Personalised Songs &amp; Stories</div>
+    <h1>Where Music<br>Meets <em>Memory.</em></h1>
+    <p class="hero-lead">We craft personalised songs and illustrated story narrations for the moments that matter most. Birthdays, anniversaries, weddings, and every celebration worth remembering forever.</p>
+    <a href="#offer" class="hero-link">
+      Discover what we create
+      <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+
+  <div class="langs">
+    <span class="lang">हिन्दी</span>
+    <span class="lang">தமிழ்</span>
+    <span class="lang">తెలుగు</span>
+    <span class="lang">ಕನ್ನಡ</span>
+    <span class="lang">മലയാളം</span>
+    <span class="lang">English</span>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div><span class="divider-gem">✦</span><div class="divider-line r"></div></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="inner about-grid">
+    <div class="reveal">
+      <div class="s-eyebrow">Our Story</div>
+      <h2>Born from the belief that<br>the best gifts are <em>made,</em><br>not bought.</h2>
+      <blockquote class="about-quote">"Every family has a raaga. A melody that runs through its stories, its celebrations, its memories. We help you hear it."</blockquote>
+      <div class="about-ps s-body">
+        <p>RaagaTales was born in Bengaluru from a simple but deeply felt conviction. The most meaningful gifts are not purchased, they are crafted. We started with one question: what if you could give someone the gift of hearing their own story, set to music?</p>
+        <p>We are a small, passionate studio. Every personalised song we compose and every illustrated story we narrate carries our full attention and care. This is not a service to us. It is a craft. And every order is personal.</p>
+        <p>Our work draws from the rich tradition of Indian classical music. Its ragas, their emotions, their healing qualities, blended with contemporary production to create something timeless and deeply personal.</p>
+      </div>
+      <div class="founder-strip">
+        <div class="founder-dot">🎵</div>
+        <div>
+          <div class="founder-name">The RaagaTales Team</div>
+          <div class="founder-role">Bengaluru, India &nbsp;·&nbsp; raagaatales.com</div>
+        </div>
+      </div>
+    </div>
+    <div class="emblem-wrap reveal" style="transition-delay:0.15s">
+      <div class="emblem">
+        <div class="emblem-r">Raaga</div>
+        <div class="emblem-t">Tales</div>
+        <div class="emblem-sub">Where Music Meets Memory</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div><span class="divider-gem">✦</span><div class="divider-line r"></div></div>
+
+<!-- WHAT WE OFFER -->
+<section id="offer">
+  <div class="inner">
+    <div class="offer-hd reveal">
+      <div class="s-eyebrow">What We Create</div>
+      <h2>Two kinds of gifts.<br>One <em>lasting</em> impression.</h2>
+    </div>
+    <div class="cards">
+      <div class="card reveal">
+        <span class="card-num">01</span>
+        <div class="card-icon">♫</div>
+        <div class="card-title">Personalised Song</div>
+        <div class="card-body">A song that has never existed before. And never will again. Born from the details only you know, shaped by craft and feeling, and delivered in the language closest to your heart. Some gifts are heard once. This one plays forever.</div>
+        <div class="card-del">
+          <div class="del-label">Delivered as</div>
+          <div class="tags">
+            <span class="tag">MP3 Audio</span>
+            <span class="tag">WhatsApp Ready</span>
+            <span class="tag">Google Drive</span>
+          </div>
+        </div>
+      </div>
+      <div class="card reveal" style="transition-delay:0.12s">
+        <span class="card-num">02</span>
+        <div class="card-icon">📖</div>
+        <div class="card-title">Illustrated Story Narration</div>
+        <div class="card-body">A story told the way it deserves to be. With warmth, beauty, and intention. We take what you share with us and return something that feels like a heirloom. Visual, emotional, and made to be treasured across generations.</div>
+        <div class="card-del">
+          <div class="del-label">Delivered as</div>
+          <div class="tags">
+            <span class="tag">Storybook Video</span>
+            <span class="tag">PDF Storybook</span>
+            <span class="tag">WhatsApp Reel</span>
+          </div>
+        </div>
+      </div>
+      <div class="card reveal" style="transition-delay:0.24s">
+        <span class="card-num">03</span>
+        <div class="card-icon">🎁</div>
+        <div class="card-title">The Complete Gift</div>
+        <div class="card-body">For the moments that words alone cannot hold. A melody and a story, woven together into something that speaks when you cannot. The kind of gift that makes a room go quiet, and then fills it with feeling.</div>
+        <div class="card-del">
+          <div class="del-label">Delivered as</div>
+          <div class="tags">
+            <span class="tag">MP3 + Video</span>
+            <span class="tag">PDF Storybook</span>
+            <span class="tag">Google Drive</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OCCASIONS STRIP -->
+<div class="strip">
+  <span class="occ">Birthdays</span>
+  <span class="occ">Anniversaries</span>
+  <span class="occ">Weddings &amp; Sangeet</span>
+  <span class="occ">Baby Showers</span>
+  <span class="occ">Retirements</span>
+  <span class="occ">Naming Ceremonies</span>
+  <span class="occ">Any Celebration</span>
+</div>
+
+<div class="divider" style="background:var(--cream2)"><div class="divider-line"></div><span class="divider-gem">✦</span><div class="divider-line r"></div></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="inner contact-grid">
+    <div class="reveal">
+      <div class="s-eyebrow">Get in Touch</div>
+      <h2>Every gift begins<br>with a <em>conversation.</em></h2>
+      <p class="contact-body">Tell us about the person, the occasion, the memories you want to capture. Write to us and we will respond personally. We want to understand your story before we begin creating.</p>
+      <div class="email-block">
+        <span class="email-lbl">Write to us at</span>
+        <a class="email-link" href="mailto:hello@raagatales.com">hello@raagatales.com</a>
+      </div>
+      <p class="contact-note">We respond to every message personally.<br>No bots, no templates. Just a real conversation about your story.</p>
+    </div>
+    <div class="reveal" style="transition-delay:0.15s">
+      <div class="aside-card">
+        <div class="aside-ey">What to include in your email</div>
+        <div class="aside-body">Tell us <strong>the occasion</strong>, <strong>who the gift is for</strong>, <strong>your preferred language</strong>, and <strong>any special memories or details</strong> you'd like woven in. We'll take it from there and guide you through the rest.</div>
+      </div>
+      <div class="aside-card">
+        <div class="aside-ey">Languages we work in</div>
+        <div class="aside-body">We create in most Indian languages — <strong>Hindi, Tamil, Telugu, Kannada, Malayalam</strong> and more — as well as <strong>English</strong>. If you have a language in mind, simply mention it and we'll confirm.</div>
+      </div>
+      <div class="aside-card">
+        <div class="aside-ey">Pricing</div>
+        <div class="aside-body">We keep our pricing accessible and transparent. Write to us at <strong>hello@raagatales.com</strong> and we'll share all the details along with what best suits your occasion.</div>
+      </div>
+      <div class="privacy-bar">
+        <span class="lock">🔒</span>
+        <p><strong>Your privacy, always.</strong> Every photograph and story you share with us is used solely to create your gift — processed entirely in-house. Your content is never shared, sold, uploaded to external platforms, or used to train any AI model. What you share with RaagaTales stays with RaagaTales.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-inner">
+    <a class="foot-logo" href="#home">Raaga<i>Tales</i></a>
+    <div class="foot-tag">Where Music Meets Memory</div>
+    <div class="foot-copy">© 2025 RaagaTales · Bengaluru, India</div>
+  </div>
+</footer>
+
+<script>
+// ── SMOOTH SCROLL (iOS compatible) ──
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',function(e){
+    const target=document.querySelector(this.getAttribute('href'));
+    if(!target)return;
+    e.preventDefault();
+    const top=target.getBoundingClientRect().top+window.pageYOffset-60;
+    window.scrollTo({top,behavior:'smooth'});
+  });
+});
+
+// ── HAMBURGER ──
+const ham=document.getElementById('ham');
+const mob=document.getElementById('mob');
+ham.addEventListener('click',()=>{
+  const isOpen=mob.classList.toggle('open');
+  ham.classList.toggle('open',isOpen);
+  // iOS safe: use position fixed instead of overflow hidden
+  document.body.style.position=isOpen?'fixed':'';
+  document.body.style.width=isOpen?'100%':'';
+});
+mob.querySelectorAll('.mob-link').forEach(a=>{
+  a.addEventListener('click',()=>{
+    ham.classList.remove('open');
+    mob.classList.remove('open');
+    document.body.style.position='';
+    document.body.style.width='';
+  });
+});
+
+// ── MUSIC ──
+const audio=document.getElementById('bgm');
+const btn=document.getElementById('music-btn');
+const rpl=document.getElementById('ripple');
+audio.volume=0.22;
+let playing=false;
+btn.addEventListener('click',()=>{
+  if(!playing){
+    audio.play().catch(()=>{});
+    btn.textContent='♫';
+    rpl.classList.add('on');
+  } else {
+    audio.pause();
+    btn.textContent='♪';
+    rpl.classList.remove('on');
+  }
+  playing=!playing;
+});
+});
+</script>
+</body>
+</html>
