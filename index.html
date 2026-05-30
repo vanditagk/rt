@@ -6,7 +6,7 @@
 <meta name="description" content="RaagaTales — Personalised songs and illustrated story narrations for life's most precious celebrations.">
 <meta property="og:title" content="RaagaTales | Where Music Meets Memory">
 <meta property="og:description" content="Personalised songs and illustrated story narrations for birthdays, anniversaries, weddings and every celebration worth remembering.">
-<meta property="og:url" content="https://raagaatales.com">
+<meta property="og:url" content="https://raagatales.com">
 <meta name="theme-color" content="#1A0E05">
 <title>RaagaTales | Where Music Meets Memory</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -650,17 +650,34 @@ const btn=document.getElementById('music-btn');
 const rpl=document.getElementById('ripple');
 audio.volume=0.22;
 let playing=false;
+
+function startMusic(){
+   if(!playing){
+     audio.play().then(()=>{
+       playing=true;
+       btn.textContent='♫';
+       rpl.classList.add('on');
+     }).catch(()=>{});
+   }
+ }
+
+window.addEventListener('scroll', startMusic, { once:true });
+document.addEventListener('click', startMusic, { once:true });
+document.addEventListener('touchstart', startMusic, { once:true });
+  
 btn.addEventListener('click',()=>{
-  if(!playing){
-    audio.play().catch(()=>{});
-    btn.textContent='♫';
-    rpl.classList.add('on');
-  } else {
-    audio.pause();
-    btn.textContent='♪';
-    rpl.classList.remove('on');
-  }
-  playing=!playing;
+if(playing){
+     audio.pause();
+     playing=false;
+     btn.textContent='♪';
+     rpl.classList.remove('on');
+   } else {
+     audio.play().then(()=>{
+       playing=true;
+       btn.textContent='♫';
+       rpl.classList.add('on');
+     }).catch(()=>{});
+   }
 });
 
 </script>
