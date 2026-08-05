@@ -1,0 +1,79 @@
+diff --git a/index.html b/index.html
+index 40d35bb..a890388 100644
+--- a/index.html
++++ b/index.html
+@@ -3,12 +3,49 @@
+ <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
++<!-- TODO: replace with the exact tag Google Search Console gives you (Settings → Ownership verification → HTML tag) -->
++<meta name="google-site-verification" content="X-kjwAqNWmDr48qASvQCNHqxtcaSzTeiNsQ36euI2gg">
+ <meta name="description" content="RaagaTales — Personalised songs and illustrated story narrations for life's most precious celebrations.">
+ <meta property="og:title" content="RaagaTales | Where Music Meets Memory">
+ <meta property="og:description" content="Personalised songs and illustrated story narrations for birthdays, anniversaries, weddings and every celebration worth remembering.">
+ <meta property="og:url" content="https://raagatales.com">
++<link rel="canonical" href="https://raagatales.com/">
++<meta property="og:type" content="website">
++<meta property="og:image" content="https://raagatales.com/og-image.jpg">
++<meta property="og:image:width" content="1200">
++<meta property="og:image:height" content="630">
++<meta name="twitter:card" content="summary_large_image">
+ <meta name="theme-color" content="#1A0E05">
+-<title>RaagaTales | Where Music Meets Memory</title>
++<title>RaagaTales | Personalised Songs & Story Gifts, Bengaluru</title>
++<script type="application/ld+json">
++{
++  "@context": "https://schema.org",
++  "@type": "LocalBusiness",
++  "name": "RaagaTales",
++  "description": "Personalised songs and illustrated story narrations for birthdays, anniversaries, weddings and every celebration worth remembering.",
++  "url": "https://raagatales.com",
++  "email": "hello@raagatales.com",
++  "telephone": "+91-82172-79815",
++  "address": {
++    "@type": "PostalAddress",
++    "addressLocality": "Bengaluru",
++    "addressRegion": "Karnataka",
++    "addressCountry": "IN"
++  },
++  "areaServed": "IN",
++  "priceRange": "$$",
++  "makesOffer": [
++    {
++      "@type": "Offer",
++      "itemOffered": { "@type": "Service", "name": "Personalised Song" }
++    },
++    {
++      "@type": "Offer",
++      "itemOffered": { "@type": "Service", "name": "Illustrated Story Narration" }
++    }
++  ]
++}
++</script>
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+diff --git a/robots.txt b/robots.txt
+new file mode 100644
+index 0000000..5ccf91f
+--- /dev/null
++++ b/robots.txt
+@@ -0,0 +1,4 @@
++User-agent: *
++Allow: /
++
++Sitemap: https://raagatales.com/sitemap.xml
+diff --git a/sitemap.xml b/sitemap.xml
+new file mode 100644
+index 0000000..30cfdb9
+--- /dev/null
++++ b/sitemap.xml
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
++  <url>
++    <loc>https://raagatales.com/</loc>
++    <changefreq>weekly</changefreq>
++    <priority>1.0</priority>
++  </url>
++</urlset>

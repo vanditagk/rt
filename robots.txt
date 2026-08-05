@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://raagatales.com/sitemap.xml
